@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <h:head>
+        <title>Restaurante App</title>
+        <link rel="shortcut icon" type="images/icon" href="#{request.contextPath}/resources/images/favicon.png"/>
+        <script type="text/javascript">
+            $.blockUI.defaults.message = '<div style="padding-top:1em"><b:spinner name="circle-o-notch" size="2x" /> Por favor espere </div>';
+        </script>
+    </h:head>
+    <h:body>
+        <h:form id="formLogin">
+            
+            <b:growl id="msgValidaciones" placement-from="top" show-detail="true" showSummary="true" escape="true">
+                
+            </b:growl>
+
+            <b:container  id="containerLogin">
+                <b:panel id="pnlLogin" title="Inicio de Sesion" look="primary" collapsible="false">
+                    <b:panelGrid columns="2" size="lg">
+
+                        <b:image value="/resources/images/login/restaurante-logo.webp" style="width: 100%;"></b:image>
+
+                        <b:row>
+                            <b:column mediumScreen="2">
+                                <h:outputText value="Usuario:"></h:outputText>
+                            </b:column>
+
+                            <b:column mediumScreen="10">
+                                <b:inputText value="#{loginController.username}" placeholder="Ingrese su Usuario" id="txtUsuario" required="true" requiredMessage="El Usuario es Requerido!!">
+                                    <f:facet name="prepend">
+                                        <b:icon name="user"></b:icon>
+                                    </f:facet>
+                                </b:inputText>
+                                <b:focus target="txtUsuario"></b:focus>
+                            </b:column>
+
+                            <b:column mediumScreen="2">
+                                <h:outputText value="Password:"></h:outputText>
+                            </b:column>
+
+                            <b:column mediumScreen="10">
+                                <b:inputSecret value="#{loginController.password}" placeholder="Ingrese su Password" id="txtPassword" required="true" requiredMessage="La Password es Requerida!!">
+                                    <f:facet name="prepend">
+                                        <b:icon name="lock"></b:icon>
+                                    </f:facet>
+                                </b:inputSecret>
+                            </b:column>
+
+                            <b:column span="2"></b:column>
+                            <b:column span="10">
+                                <b:selectBooleanCheckbox value="#{loginController.esSuperAdminGeneral}" caption="Administrador General"></b:selectBooleanCheckbox>
+                            </b:column>
+
+                            <b:column span="2"></b:column>
+                            <b:column span="10">
+                                <b:commandButton value="Ingresar" onclick="ajax:loginController.entrar()" look="primary" style="width: 100%; float: right" update="pnlLogin, msgValidaciones"></b:commandButton>
+                            </b:column>
+                        </b:row>
+                        
+                    </b:panelGrid>
+                </b:panel>
+            </b:container>
+
+        </h:form>
+    </h:body>
+</html>

@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <h:head>
+        <ui:include src="/pages/commons/commons.xhtml"></ui:include>
+    </h:head>
+    <h:body>
+
+        <ui:include src="/pages/commons/navbar.xhtml"></ui:include>
+
+        <b:container>
+            <b:row>
+                <h:form id="formAdminTiposAlimentos">
+
+                    <b:growl id="msgValidaciones" placement-from="top" show-detail="true" showSummary="true" escape="true">
+
+                    </b:growl>
+
+                    <b:panel title="Administracion de Tipos de Alimentos" look="primary" collapsible="false">
+                        <b:commandButton look="primary" id="btnAgregar" value="Agregar" size="lg" style="margin-bottom: 20px" ajax="true" oncomplete="$('#amodal').modal('show')" 
+                                         onclick="ajax:adminTiposAlimentosController.inicializarComponentes()" update="formRegistroTipoAlimento"></b:commandButton>
+
+                        <b:dataTable  id="tblTiposAlimentos" value="#{adminTiposAlimentosController.tiposAlimentos}" var="tipoAlimento" style="width: 100%" excel="true" csv="true"
+                                      pdf="true" responsive="true">
+                            <b:dataTableColumn label="Descripcion">
+                                <h:outputText value="#{tipoAlimento.descripcion}"></h:outputText>
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="Fecha de Creacion">
+                                <h:outputText value="#{tipoAlimento.fechaCreacion}" converter="#{localDateTimeConverter}"></h:outputText>
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="Fecha de Modificacion">
+                                <h:outputText value="#{tipoAlimento.fechaModificacion}" converter="#{localDateTimeConverter}"></h:outputText>
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="Estatus">
+                                <b:label value="Habilitado" rendered="#{tipoAlimento.status}" severity="success"></b:label>
+                                <b:label value="Deshabilitado" rendered="#{!tipoAlimento.status}" severity="danger"></b:label>
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="Actualizar">
+                                <b:commandButton icon="pencil" look="primary" ajax="true" size="sm" update="formRegistroTipoAlimento" oncomplete="$('#amodal').modal('show')" onclick="ajax:adminTiposAlimentosController.cargarInformacionModal(tipoAlimento)"></b:commandButton>
+                            </b:dataTableColumn>
+                        </b:dataTable>
+                    </b:panel>
+                </h:form>
+
+                <b:modal id="amodal" title="Registro de Tipo de Alimentos" styleClass="modalPseudoClass">
+
+                    <b:form id="formRegistroTipoAlimento">
+
+                        <b:inputText id="txtDescripcion" value="#{adminTiposAlimentosController.tipoAlimento.descripcion}" label="Descripcion: "  required="true" required-message="La Descripcion es Requerida"></b:inputText>
+
+                        <b:switch id="swEstatus" value="#{adminTiposAlimentosController.tipoAlimento.status}" offText="Habilitar" onText="Deshabilitar" 
+                                  label="Estatus: " off-color="success" on-color="danger" col-md="6" span="12" rendered="#{adminTiposAlimentosController.tipoAlimento.idTipoAlimento != null}"></b:switch>
+
+                        <b:row style="margin-bottom: 10px; margin-top: 10px">
+                            <b:column col-md="6">
+                                <b:button id="btnCancelar" value="Cancelar" large-screen="full-width" look="danger" dismiss="modal" onclick="return false;"></b:button>
+                            </b:column>
+                            <b:column col-md="6">
+                                <b:commandButton id="btnGuardar" large-screen="full-width" value="Guardar" look="success" update="formRegistroTipoAlimento, formAdminTiposAlimentos:tblTiposAlimentos,formAdminTiposAlimentos:msgValidaciones" 
+                                                 oncomplete="if(!validationFailed) {$('#amodal').modal('hide')}" onclick="ajax:adminTiposAlimentosController.guardar()" rendered="#{adminTiposAlimentosController.tipoAlimento.idTipoAlimento == null}"></b:commandButton>
+                                <b:commandButton id="btnActualizar" large-screen="full-width" value="Actualizar" look="success" update="formRegistroTipoAlimento, formAdminTiposAlimentos:tblTiposAlimentos,formAdminTiposAlimentos:msgValidaciones" oncomplete="$('#amodal').modal('hide')" 
+                                                 onclick="ajax:adminTiposAlimentosController.actualizar()" rendered="#{adminTiposAlimentosController.tipoAlimento.idTipoAlimento != null}"></b:commandButton>
+                            </b:column>
+                        </b:row>
+
+                        <b:fetchBeanInfos></b:fetchBeanInfos>
+			<b:messages></b:messages>
+                    </b:form>
+
+                </b:modal>
+
+            </b:row>
+        </b:container>
+
+    </h:body>
+</html>
