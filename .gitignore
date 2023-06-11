@@ -1,4 +1,8 @@
 
+### Test projects ###
+Restaurante-web-prueba/
+restaurante-data/
+
 ### Ansible files ###
 *.retry
 
