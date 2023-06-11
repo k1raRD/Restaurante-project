@@ -3,6 +3,9 @@
 Restaurante-web-prueba/
 restaurante-data/
 
+### Idea file ###
+.idea
+
 ### Ansible files ###
 *.retry
 
